@@ -7,19 +7,18 @@ import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 
-@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Pedido {
+@Entity
+public class Pagamento {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private Instant momento;
-    private StatusPedido status;
-    @ManyToOne
-    private Usuario cliente ;
-    @OneToOne(mappedBy = "pedido", cascade = CascadeType.ALL)
-    private Pagamento pagamento;
+    @OneToOne
+    @MapsId
+    private Pedido pedido;
 
 }

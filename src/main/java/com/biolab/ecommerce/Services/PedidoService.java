@@ -31,4 +31,10 @@ public class PedidoService {
         pedidoRepository.save(pedido);
         return "Pedido criado com sucesso";
     }
+
+    public String deletarPedido(long id) {
+        Pedido pedido = pedidoRepository.findById(id).orElseThrow();
+        pedidoRepository.deleteById(id);
+        return "Pedido deletado com sucesso";
+    }
 }
