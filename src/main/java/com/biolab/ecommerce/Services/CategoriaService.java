@@ -27,7 +27,7 @@ public class CategoriaService {
     public CategoriaDTO buscarCategoriaPorId(Long id) {
         Categoria categoria = categoriaRepository.findById(id).orElseThrow();
         CategoriaDTO categoriaDTO = new CategoriaDTO();
-        categoriaDTO.setId(categoriaDTO.getId());
+        categoriaDTO.setId(categoria.getId());
         categoriaDTO.setNome(categoria.getNome());
         return categoriaDTO;
     }
@@ -38,18 +38,21 @@ public class CategoriaService {
     }
 
     public List<CategoriaDTO> buscarTodasCategorias() {
-        // 1. Busca todas as categorias no banco de dados
         List<Categoria> categorias = categoriaRepository.findAll();
-
-        // 2. Mapeia a lista de entidades para uma lista de DTOs
-        return categorias.stream()
-                .map(categoria -> {
+        return categorias.stream().map(categoria -> {
                     CategoriaDTO dto = new CategoriaDTO();
                     dto.setId(categoria.getId());
                     dto.setNome(categoria.getNome());
                     return dto;
                 })
-                .toList(); // Use .collect(Collectors.toList()) se estiver no Java 15 ou inferior
+                .toList();
+    }
+
+    public String atualizarCategoriaPorId(Long id, CategoriaDTO categoriaDTO) {
+        Categoria categoria = categoriaRepository.findById(id).orElseThrow();
+        categoria.setNome(categoriaDTO.getNome());
+        categoriaRepository.save(categoria);
+        return "Categoria alterada com sucesso!";
     }
 
 }
